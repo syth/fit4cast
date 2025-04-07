@@ -13,6 +13,7 @@ const AuthenticationPage = ({ onLogin }) => {
 
   return (
     <div className="auth-page">
+      <h1>Fit4Cast</h1>
       <h2>Login</h2>
       <div>
         <input 
