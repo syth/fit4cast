@@ -1,15 +1,12 @@
 version: 1
 frontend:
   phases:
-  prebuild:
-    commands:
-      - cd ./fit4cast
     # IMPORTANT - Please verify your build commands
     build:
       commands: []
   artifacts:
     # IMPORTANT - Please verify your build output directory
-    baseDirectory: /fit4cast/.*
+    baseDirectory: /fit4cast/*
     files:
       - '**/*'
   cache:
