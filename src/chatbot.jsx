@@ -1,12 +1,9 @@
-// Chatbot.jsx
 import React, { useState } from "react";
 import {
   LexRuntimeV2Client,
   RecognizeTextCommand,
 } from "@aws-sdk/client-lex-runtime-v2";
-import { Amplify } from "aws-amplify";
 
-// Replace with your actual Lex V2 details:
 const botId = "2J7WFDYDMG";
 const botAliasId = "TSTALIASID";
 const localeId = "en_US";
@@ -16,12 +13,12 @@ const Chatbot = () => {
   const [conversation, setConversation] = useState([]);
 
   const sendMessage = async (message) => {
-    // Obtain AWS credentials for signing the request
-    const credentials = await Amplify.Auth.currentCredentials();
-
     const client = new LexRuntimeV2Client({
       region: "us-east-1",
-      credentials: Amplify.Auth.essentialCredentials(credentials),
+      credentials: {
+        accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
+        secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
+      },
     });
 
     const params = {
@@ -49,6 +46,7 @@ const Chatbot = () => {
       }
     } catch (error) {
       console.error("Error communicating with Lex:", error);
+      console.log("Command", command);
       setConversation((prev) => [
         ...prev,
         {
