@@ -1,12 +1,17 @@
 # Setup Instrctuions
 
-Step 1:
+Step 1: Install Pacakges
 `npm install`
 
-Step 2:
-`npm build` or `npm dev`
+Step 2: Setup .env
 
-Step 3:
+- Create .env in root directory
+- add: VITE_AWS_ACCESS_KEY_ID & VITE_AWS_SECRET_ACCESS_KEY
+
+Step 3: Run Website
+`npm dev` or `npm build`
+
+Step 4: Check for Errors
 After you make changes run eslint using the command `npm run lint`
 This will check for linting errors
 
