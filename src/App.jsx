@@ -48,6 +48,7 @@ const WeatherPage = ({ onLogout }) => {
         </button>
       </header>
       <main className="main-content">
+        <Chatbot />
         <div className="weather-info">
           <h2>Weather Information For [LOCATION]:</h2>
           <ul>
@@ -74,7 +75,6 @@ const WeatherPage = ({ onLogout }) => {
             <li>[ACTIVITY 3]</li>
           </ul>
         </div>
-        <Chatbot />
       </main>
       <footer className="App-footer">
         <p>2025 Fit4Cast Team 2B SWEN-514</p>

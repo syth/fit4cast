@@ -4,7 +4,7 @@ import {
   LexRuntimeV2Client,
   RecognizeTextCommand,
 } from "@aws-sdk/client-lex-runtime-v2";
-import { Auth } from "aws-amplify";
+import { Amplify } from "aws-amplify";
 
 // Replace with your actual Lex V2 details:
 const botId = "2J7WFDYDMG";
@@ -17,11 +17,11 @@ const Chatbot = () => {
 
   const sendMessage = async (message) => {
     // Obtain AWS credentials for signing the request
-    const credentials = await Auth.currentCredentials();
+    const credentials = await Amplify.Auth.currentCredentials();
 
     const client = new LexRuntimeV2Client({
       region: "us-east-1",
-      credentials: Auth.essentialCredentials(credentials),
+      credentials: Amplify.Auth.essentialCredentials(credentials),
     });
 
     const params = {
@@ -71,7 +71,7 @@ const Chatbot = () => {
     <div
       style={{ border: "1px solid #ccc", padding: "1rem", marginTop: "1rem" }}
     >
-      <h2>Chat with the Bot</h2>
+      <h2>Chat with Jcandbot</h2>
       <div
         style={{
           height: "200px",
