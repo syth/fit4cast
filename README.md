@@ -1,3 +1,15 @@
+# Setup Instrctuions
+
+Step 1:
+`npm install`
+
+Step 2:
+`npm build` or `npm dev`
+
+Step 3:
+After you make changes run eslint using the command `npm run lint`
+This will check for linting errors
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
