@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Chatbot from "./Chatbot";
+import WeatherInfo from "./WeatherInfo";
 
 // Authentication Page (No actual validation, just a simple form)
 const AuthenticationPage = ({ onLogin }) => {
@@ -39,10 +40,14 @@ const AuthenticationPage = ({ onLogin }) => {
 
 // Weather Page
 const WeatherPage = ({ onLogout }) => {
+  const latitude = "43.1548";
+  const longitude = "-77.6156";
+  let today = new Date();
+  let time = today.getHours() + ":" + today.getMinutes();
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hello, [NAME]!</h1>
+        <h1>Hello! Welcome to Fit4Cast</h1>
         <button className="logout-button" onClick={onLogout}>
           Log Out
         </button>
@@ -50,29 +55,27 @@ const WeatherPage = ({ onLogout }) => {
       <main className="main-content">
         <Chatbot />
         <div className="weather-info">
-          <h2>Weather Information For [LOCATION]:</h2>
-          <ul>
-            <li>
-              <strong>Temperature:</strong> [TEMPERATURE]
-            </li>
-            <li>
-              <strong>Precipitation:</strong> [PRECIPITATION]
-            </li>
-            <li>
-              <strong>Wind Speed:</strong> [WIND SPEED]
-            </li>
-            <li>
-              <strong>Weather Code:</strong> [WEATHER CODE (convert to word(s))]
-            </li>
-          </ul>
+          <h2>Rochester {time}</h2>
+          <WeatherInfo latitude={latitude} longitude={longitude} />
         </div>
 
         <div className="activities">
           <h2>Try some of the following activities:</h2>
           <ul>
-            <li>[ACTIVITY 1]</li>
-            <li>[ACTIVITY 2]</li>
-            <li>[ACTIVITY 3]</li>
+            <li>
+              Swim at{" "}
+              <a href="https://www.acsalaska.net/~dkadrich/goober%20lake.htm">
+                Goober Lake
+              </a>
+            </li>
+            <li>
+              Hike{" "}
+              <a href="https://www.acsalaska.net/~dkadrich/alascom%20tower.htm">
+                Knob Hill
+              </a>{" "}
+              Trail
+            </li>
+            <li>Bungie Jumping</li>
           </ul>
         </div>
       </main>
