@@ -53,11 +53,13 @@ const WeatherPage = ({ onLogout }) => {
         </button>
       </header>
       <main className="main-content">
-        <Chatbot />
+        {/* <div className="chatbot-container"> */}
         <div className="weather-info">
+          <Chatbot />
           <h2>Rochester {time}</h2>
           <WeatherInfo latitude={latitude} longitude={longitude} />
         </div>
+        {/* </div> */}
 
         <div className="activities">
           <h2>Try some of the following activities:</h2>
@@ -75,7 +77,7 @@ const WeatherPage = ({ onLogout }) => {
               </a>{" "}
               Trail
             </li>
-            <li>Bungie Jumping</li>
+            <li>Go Bungie Jumping!!!</li>
           </ul>
         </div>
       </main>

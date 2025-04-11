@@ -4,7 +4,7 @@ import {
   RecognizeTextCommand,
 } from "@aws-sdk/client-lex-runtime-v2";
 
-const botId = "2J7WFDYDMG";
+const botId = "EEVFIO96HA";
 const botAliasId = "TSTALIASID";
 const localeId = "en_US";
 const sessionId = "session-" + Date.now();
@@ -67,7 +67,13 @@ const Chatbot = () => {
 
   return (
     <div
-      style={{ border: "1px solid #ccc", padding: "1rem", marginTop: "1rem" }}
+      style={{
+        border: "1px solid #ccc",
+        padding: "1rem",
+        marginTop: "1rem",
+        backgroundColor: "#fff",
+        borderRadius: "8px",
+      }}
     >
       <h2>Chat with Jcandbot</h2>
       <div
@@ -76,6 +82,8 @@ const Chatbot = () => {
           overflowY: "scroll",
           border: "1px solid #eee",
           padding: "0.5rem",
+          backgroundColor: "#fff",
+          borderRadius: "8px",
         }}
       >
         {conversation.map((msg, index) => (
