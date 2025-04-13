@@ -1,7 +1,6 @@
 .App {
   font-family: Arial, sans-serif;
   text-align: center;
-  padding: 20px;
 }
 
 .App-header {
@@ -19,7 +18,8 @@
   margin-top: 20px;
 }
 
-.weather-info, .activities {
+.weather-info,
+.activities {
   text-align: left;
   margin: 20px auto;
   padding: 20px;

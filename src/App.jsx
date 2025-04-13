@@ -43,7 +43,7 @@ const WeatherPage = ({ onLogout }) => {
   const latitude = "43.1548";
   const longitude = "-77.6156";
   let today = new Date();
-  let time = today.getHours() + ":" + today.getMinutes();
+  let time = today.toLocaleTimeString();
   return (
     <div className="App">
       <header className="App-header">

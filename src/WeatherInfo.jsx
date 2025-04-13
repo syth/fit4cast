@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 const fetchWeatherData = async ({ queryKey }) => {
   const [, latitude, longitude] = queryKey;
   // Replace <restapi-id>, <region>, and <stage> with your actual values.
-  const apiUrl = `https://mpmrop89t8.execute-api.us-east-1.amazonaws.com/fit4cast/weather?latitude=${latitude}&longitude=${longitude}`;
+  const apiUrl = `https://hctfwveuf3.execute-api.us-east-1.amazonaws.com/fit4cast/weather?latitude=${latitude}&longitude=${longitude}`;
 
   const response = await fetch(apiUrl);
   if (!response.ok) {

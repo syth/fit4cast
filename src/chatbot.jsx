@@ -4,7 +4,7 @@ import {
   RecognizeTextCommand,
 } from "@aws-sdk/client-lex-runtime-v2";
 
-const botId = "EEVFIO96HA";
+const botId = "I33H0WWDC9";
 const botAliasId = "TSTALIASID";
 const localeId = "en_US";
 const sessionId = "session-" + Date.now();
@@ -34,6 +34,7 @@ const Chatbot = () => {
       const response = await client.send(command);
       // Update conversation: add your message
       setConversation((prev) => [...prev, { from: "user", text: message }]);
+      console.log(response);
 
       // Add each bot response message to your conversation.
       if (response.messages) {
