@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App.jsx";
 import { Amplify } from "aws-amplify";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Authenticator } from "@aws-amplify/ui-react";
+import '@aws-amplify/ui-react/styles.css'
 
 Amplify.configure({
   Interactions: {
@@ -22,8 +24,10 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <Authenticator>
     <QueryClientProvider client={queryClient}>
       <App />
     </QueryClientProvider>
+    </Authenticator>
   </StrictMode>
 );

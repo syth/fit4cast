@@ -12,18 +12,19 @@
   },
   "dependencies": {
     "@aws-amplify/backend": "^1.14.3",
-    "@aws-sdk/client-lex-runtime-v2": "^3.782.0",
+    "@aws-amplify/ui-react": "^6.11.0",
     "@aws-sdk/client-cloudformation": "^3.787.0",
+    "@aws-sdk/client-lex-runtime-v2": "^3.782.0",
     "@smithy/util-base64": "^4.0.0",
     "@tanstack/react-query": "^5.72.2",
-    "aws-amplify": "^6.14.1",
-    "oidc-client-ts": "^3.2.0",
+    "aws-amplify": "^6.14.2",
+    "execa": "^9.4.0",
     "json-schema-to-ts": "^3.1.1",
-    "ts-algebra": "^2.0.0",
+    "oidc-client-ts": "^3.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-oidc-context": "^3.3.0",
-    "execa": "^9.4.0"
+    "ts-algebra": "^2.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
