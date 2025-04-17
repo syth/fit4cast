@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import {
-  LexRuntimeV2Client,
-  RecognizeTextCommand,
-} from "@aws-sdk/client-lex-runtime-v2";
+import { LexRuntimeClient, PostTextCommand } from "@aws-sdk/client-lex-runtime";
 
-const botId = "I33H0WWDC9";
-const botAliasId = "TSTALIASID";
-const localeId = "en_US";
-const sessionId = "session-" + Date.now();
+const botName = "Jcandbot"; // Replace with your Lex V1 bot name
+const botAlias = "REACTALIAS"; // Replace with your bot alias
+const userId = "user-" + Date.now();
 const Chatbot = () => {
   const [input, setInput] = useState("");
   const [conversation, setConversation] = useState([]);
 
   const sendMessage = async (message) => {
-    const client = new LexRuntimeV2Client({
+    const client = new LexRuntimeClient({
       region: "us-east-1",
       credentials: {
         accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
@@ -22,28 +18,25 @@ const Chatbot = () => {
     });
 
     const params = {
-      botId,
-      botAliasId,
-      localeId,
-      sessionId,
-      text: message,
+      botName,
+      botAlias,
+      userId,
+      inputText: message,
     };
 
-    const command = new RecognizeTextCommand(params);
+    const command = new PostTextCommand(params);
     try {
       const response = await client.send(command);
       // Update conversation: add your message
       setConversation((prev) => [...prev, { from: "user", text: message }]);
       console.log(response);
 
-      // Add each bot response message to your conversation.
-      if (response.messages) {
-        response.messages.forEach((msg) => {
-          setConversation((prev) => [
-            ...prev,
-            { from: "bot", text: msg.content },
-          ]);
-        });
+      // Add bot response to conversation
+      if (response.message) {
+        setConversation((prev) => [
+          ...prev,
+          { from: "bot", text: response.message },
+        ]);
       }
     } catch (error) {
       console.error("Error communicating with Lex:", error);
