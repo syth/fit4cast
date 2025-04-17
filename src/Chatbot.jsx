@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { LexRuntimeClient, PostTextCommand } from "@aws-sdk/client-lex-runtime-service";
+import {
+  LexRuntimeServiceClient,
+  PostTextCommand,
+} from "@aws-sdk/client-lex-runtime-service";
 
-const botName = "Jcandbot"; // Replace with your Lex V1 bot name
-const botAlias = "REACTALIAS"; // Replace with your bot alias
+const botName = "ActivitySuggesterBot";
+const botAlias = "REACTALIAS";
 const userId = "user-" + Date.now();
 const Chatbot = () => {
   const [input, setInput] = useState("");
   const [conversation, setConversation] = useState([]);
 
   const sendMessage = async (message) => {
-    const client = new LexRuntimeClient({
+    const client = new LexRuntimeServiceClient({
       region: "us-east-1",
       credentials: {
         accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
