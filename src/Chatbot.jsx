@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LexRuntimeClient, PostTextCommand } from "@aws-sdk/client-lex-runtime";
+import { LexRuntimeClient, PostTextCommand } from "@aws-sdk/client-lex-runtime-service";
 
 const botName = "Jcandbot"; // Replace with your Lex V1 bot name
 const botAlias = "REACTALIAS"; // Replace with your bot alias
