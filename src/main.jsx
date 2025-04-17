@@ -18,6 +18,15 @@ Amplify.configure({
       },
     },
   },
+  Auth: {
+    Cognito: {
+      userPoolClientId: '4f3062cj4ggigrcnmtgie54162',
+      userPoolId: 'us-east-1_tpgFqNvf3',
+      loginWith: {
+        email: 'true',
+      }
+    }
+  }
 });
 
 const queryClient = new QueryClient();
