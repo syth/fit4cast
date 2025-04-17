@@ -5,7 +5,7 @@ import {
 } from "@aws-sdk/client-lex-runtime-service";
 
 const botName = "ActivitySuggesterBot";
-const botAlias = "REACTALIAS";
+const botAlias = "ReactAlias";
 const userId = "user-" + Date.now();
 const Chatbot = () => {
   const [input, setInput] = useState("");
