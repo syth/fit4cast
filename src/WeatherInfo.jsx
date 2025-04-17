@@ -38,7 +38,7 @@ const getWeatherDescription = (code) => {
 const fetchWeatherData = async ({ queryKey }) => {
   const [, latitude, longitude] = queryKey;
   // Replace first part of URL with api id.
-  const apiUrl = `https://whwu7cw9z0.execute-api.us-east-1.amazonaws.com/fit4cast/weather?latitude=${latitude}&longitude=${longitude}`;
+  const apiUrl = `https://o2babr8sqj.execute-api.us-east-1.amazonaws.com/fit4cast/weather?latitude=${latitude}&longitude=${longitude}`;
 
   const response = await fetch(apiUrl);
   if (!response.ok) {
