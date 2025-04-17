@@ -8,16 +8,6 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import '@aws-amplify/ui-react/styles.css'
 
 Amplify.configure({
-  Interactions: {
-    LexV2: {
-      jcandbot: {
-        aliasId: "TSTALIASID",
-        botId: "2J7WFDYDMG",
-        localeId: "en_US",
-        region: "us-east-1",
-      },
-    },
-  },
   Auth: {
     Cognito: {
       userPoolClientId: '4f3062cj4ggigrcnmtgie54162',
