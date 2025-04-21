@@ -70,7 +70,7 @@ const WeatherPage = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hello! Welcome to Fit4Cast</h1>
+        <h1>Hello! Welcome to Fit4Cast {user.signInDetails.loginId}</h1>
         <button className="logout-button" onClick={signOut}>
           Log Out
         </button>
