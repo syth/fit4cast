@@ -1,8 +1,16 @@
 import React, { useState } from "react";
-import { generateClient } from "aws-amplify/api";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 
-const client = generateClient();
+const client = new DynamoDBClient({
+  region: "us-east-1",
+  credentials: {
+    accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
+    secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
+  },
+});
+const docClient = DynamoDBDocumentClient.from(client);
 
 const PreferencesForm = ({ onComplete }) => {
   const { user } = useAuthenticator();
@@ -11,6 +19,8 @@ const PreferencesForm = ({ onComplete }) => {
     intensity: "medium",
     preferredTime: "morning",
     indoorOutdoor: "both",
+    latitude: "43.1548", // Default to Rochester, NY
+    longitude: "-77.6156",
   });
 
   const activities = [
@@ -36,10 +46,17 @@ const PreferencesForm = ({ onComplete }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await client.models.UserPreferences.create({
-        userId: user.username,
-        ...preferences,
-      });
+      await docClient.send(
+        new PutCommand({
+          TableName: "UserData",
+          Item: {
+            UserID: user.username,
+            ...preferences,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+        })
+      );
       onComplete();
     } catch (error) {
       console.error("Error saving preferences:", error);
@@ -115,6 +132,39 @@ const PreferencesForm = ({ onComplete }) => {
             <option value="outdoor">Outdoor</option>
             <option value="both">Both</option>
           </select>
+        </div>
+
+        <div>
+          <h3>Your Location:</h3>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <div>
+              <label>Latitude:</label>
+              <input
+                type="text"
+                value={preferences.latitude}
+                onChange={(e) =>
+                  setPreferences((prev) => ({
+                    ...prev,
+                    latitude: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div>
+              <label>Longitude:</label>
+              <input
+                type="text"
+                value={preferences.longitude}
+                onChange={(e) =>
+                  setPreferences((prev) => ({
+                    ...prev,
+                    longitude: e.target.value,
+                  }))
+                }
+              />
+            </div>
+          </div>
+          <small>Default is set to Rochester, NY (43.1548, -77.6156)</small>
         </div>
 
         <button type="submit">Save Preferences</button>
