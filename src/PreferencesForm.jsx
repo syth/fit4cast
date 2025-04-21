@@ -12,16 +12,28 @@ const client = new DynamoDBClient({
 });
 const docClient = DynamoDBDocumentClient.from(client);
 
-const PreferencesForm = ({ onComplete }) => {
+const PreferencesForm = ({ onComplete, existingPreferences }) => {
   const { user } = useAuthenticator();
-  const [preferences, setPreferences] = useState({
-    activities: [],
-    intensity: "medium",
-    preferredTime: "morning",
-    indoorOutdoor: "both",
-    latitude: "43.1548", // Default to Rochester, NY
-    longitude: "-77.6156",
-  });
+  const [preferences, setPreferences] = useState(
+    existingPreferences
+      ? {
+          activities: existingPreferences.activities || [],
+          intensity: existingPreferences.intensity || "medium",
+          preferredTime: existingPreferences.preferredTime || "morning",
+          indoorOutdoor: existingPreferences.indoorOutdoor || "both",
+          latitude: existingPreferences.latitude || "43.1548",
+          longitude: existingPreferences.longitude || "-77.6156",
+        }
+      : {
+          // Default values
+          activities: [],
+          intensity: "medium",
+          preferredTime: "morning",
+          indoorOutdoor: "both",
+          latitude: "43.1548", // Default to Rochester
+          longitude: "-77.6156",
+        }
+  );
 
   const activities = [
     "Running",
@@ -65,7 +77,9 @@ const PreferencesForm = ({ onComplete }) => {
 
   return (
     <div className="preferences-form">
-      <h2>Set Your Activity Preferences</h2>
+      <h2>
+        {existingPreferences ? "Update" : "Set"} Your Activity Preferences
+      </h2>
       <form onSubmit={handleSubmit}>
         <div>
           <h3>Select Your Favorite Activities:</h3>
@@ -167,7 +181,9 @@ const PreferencesForm = ({ onComplete }) => {
           <small>Default is set to Rochester, NY (43.1548, -77.6156)</small>
         </div>
 
-        <button type="submit">Save Preferences</button>
+        <button type="submit">
+          {existingPreferences ? "Update" : "Save"} Preferences
+        </button>
       </form>
     </div>
   );

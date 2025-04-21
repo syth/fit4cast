@@ -24,6 +24,7 @@ const WeatherPage = () => {
     latitude: "43.1548", // Default to Rochester, NY
     longitude: "-77.6156",
   });
+  const [existingPreferences, setExistingPreferences] = useState(null);
   const today = new Date();
   const time = today.toLocaleTimeString();
 
@@ -46,6 +47,9 @@ const WeatherPage = () => {
         // User has preferences, don't show the form
         setShowPreferences(false);
 
+        // Store the existing preferences
+        setExistingPreferences(response.Item);
+
         // Update location if available
         if (response.Item.latitude && response.Item.longitude) {
           setUserLocation({
@@ -56,24 +60,65 @@ const WeatherPage = () => {
       } else {
         // User doesn't have preferences, show the form
         setShowPreferences(true);
+        setExistingPreferences(null);
       }
     } catch (e) {
       console.error("Error fetching preferences:", e);
       setShowPreferences(true);
+      setExistingPreferences(null);
     }
   };
 
+  const handleChangePreferences = () => {
+    setShowPreferences(true);
+  };
+
   if (showPreferences) {
-    return <PreferencesForm onComplete={() => setShowPreferences(false)} />;
+    return (
+      <PreferencesForm
+        onComplete={() => {
+          setShowPreferences(false);
+          checkUserPreferences(); // Refresh preferences after saving
+        }}
+        existingPreferences={existingPreferences}
+      />
+    );
   }
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>Hello! Welcome to Fit4Cast {user.signInDetails.loginId}</h1>
-        <button className="logout-button" onClick={signOut}>
-          Log Out
-        </button>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            className="preferences-button"
+            onClick={handleChangePreferences}
+            style={{
+              backgroundColor: "#4CAF50",
+              color: "white",
+              border: "none",
+              padding: "8px 16px",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Change Preferences
+          </button>
+          <button
+            className="logout-button"
+            onClick={signOut}
+            style={{
+              backgroundColor: "#f44336",
+              color: "white",
+              border: "none",
+              padding: "8px 16px",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Log Out
+          </button>
+        </div>
       </header>
       <main className="main-content">
         <div className="weather-info">
