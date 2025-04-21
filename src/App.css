@@ -44,3 +44,45 @@
 .read-the-docs {
   color: #888;
 }
+
+.preferences-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+}
+
+.preferences-form h2 {
+  margin-bottom: 1.5rem;
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.preferences-form select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.preferences-form button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #282c34;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.preferences-form button:hover {
+  background-color: #373d48;
+}

@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Chatbot from "./Chatbot";
 import WeatherInfo from "./WeatherInfo";
+import PreferencesForm from "./PreferencesForm";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { generateClient } from "aws-amplify/api";
+
+const client = generateClient();
 
 // Weather Page with Cognito sign-out
 const WeatherPage = () => {
-  const { signOut } = useAuthenticator();
+  const { signOut, user } = useAuthenticator();
+  const [showPreferences, setShowPreferences] = useState(false);
   const latitude = "43.1548";
   const longitude = "-77.6156";
   const today = new Date();
   const time = today.toLocaleTimeString();
+
+  useEffect(() => {
+    checkUserPreferences();
+  }, []);
+
+  const checkUserPreferences = async () => {
+    try {
+      const preferences = await client.models.UserPreferences.get({
+        userId: user.username,
+      });
+      setShowPreferences(!preferences);
+    } catch (e) {
+      console.error("Error fetching preferences:", e);
+      setShowPreferences(true);
+    }
+  };
+
+  if (showPreferences) {
+    return <PreferencesForm onComplete={() => setShowPreferences(false)} />;
+  }
 
   return (
     <div className="App">
@@ -31,10 +56,17 @@ const WeatherPage = () => {
           <h2>Try some of the following activities:</h2>
           <ul>
             <li>
-              Swim at <a href="https://www.acsalaska.net/~dkadrich/goober%20lake.htm">Goober Lake</a>
+              Swim at{" "}
+              <a href="https://www.acsalaska.net/~dkadrich/goober%20lake.htm">
+                Goober Lake
+              </a>
             </li>
             <li>
-              Hike <a href="https://www.acsalaska.net/~dkadrich/alascom%20tower.htm">Knob Hill</a> Trail
+              Hike{" "}
+              <a href="https://www.acsalaska.net/~dkadrich/alascom%20tower.htm">
+                Knob Hill
+              </a>{" "}
+              Trail
             </li>
             <li>Go Bungie Jumping!!!</li>
           </ul>

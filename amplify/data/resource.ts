@@ -1,9 +1,13 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 
 const schema = a.schema({
-  Todo: a
+  UserPreferences: a
     .model({
-      content: a.string(),
+      userId: a.string().required(),
+      activities: a.list(a.string()),
+      intensity: a.string().required(), // 'low', 'medium', 'high'
+      preferredTime: a.string(), // 'morning', 'afternoon', 'evening'
+      indoorOutdoor: a.string(), // 'indoor', 'outdoor', 'both'
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
@@ -14,7 +18,6 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },
