@@ -3,14 +3,16 @@ import {
   LexRuntimeServiceClient,
   PostTextCommand,
 } from "@aws-sdk/client-lex-runtime-service";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 const botName = "ActivitySuggesterBot";
 const botAlias = "ReactAlias";
-const userId = "user-" + Date.now();
+
 const Chatbot = () => {
   const [input, setInput] = useState("");
   const [conversation, setConversation] = useState([]);
-
+  const { user } = useAuthenticator();
+  const userId = user.username;
   const sendMessage = async (message) => {
     const client = new LexRuntimeServiceClient({
       region: "us-east-1",
@@ -20,11 +22,25 @@ const Chatbot = () => {
       },
     });
 
+    // Fetch user preferences
+    const userPreferences = await client.models.UserPreferences.get({
+      userId: user.username,
+    });
+
     const params = {
       botName,
       botAlias,
       userId,
       inputText: message,
+      sessionAttributes: {
+        // Include user preferences in the session
+        userPreferences: JSON.stringify({
+          activities: userPreferences.activities,
+          intensity: userPreferences.intensity,
+          preferredTime: userPreferences.preferredTime,
+          indoorOutdoor: userPreferences.indoorOutdoor,
+        }),
+      },
     };
 
     const command = new PostTextCommand(params);
