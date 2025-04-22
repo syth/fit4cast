@@ -26,4 +26,4 @@ VITE_COGNITO_USER_POOL_CLIENT_ID=
 Run `npm run dev` or `npm run build` to get a live development server that you can access a live updating site in your web browser or create a build folder where you can access a non-live updating site.
 
 ## Step 4: Use The Website!
-The 
+Visit the website and utilize Fit4Cast to help you plan out activities for your day!
