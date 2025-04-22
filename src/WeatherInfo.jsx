@@ -50,7 +50,6 @@ const fetchWeatherData = async ({ queryKey }) => {
 };
 
 const WeatherInfo = ({ latitude, longitude }) => {
-  console.log(latitude, longitude);
   const { data, error, isLoading } = useQuery({
     queryKey: ["weather", latitude, longitude],
     queryFn: fetchWeatherData,
@@ -58,7 +57,6 @@ const WeatherInfo = ({ latitude, longitude }) => {
 
   if (isLoading) return <div>Loading weather data...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  console.log(data);
 
   return (
     <div>
