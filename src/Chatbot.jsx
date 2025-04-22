@@ -35,6 +35,7 @@ const Chatbot = () => {
       sessionAttributes: {
         // Include user preferences in the session
         userPreferences: JSON.stringify({
+          preferences: userPreferences.preferences,
           activities: userPreferences.activities,
           intensity: userPreferences.intensity,
           preferredTime: userPreferences.preferredTime,

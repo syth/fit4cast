@@ -61,7 +61,7 @@ const PreferencesForm = ({ onComplete, existingPreferences }) => {
       // Create a combined lat_long string in the format expected by DynamoDB
       const lat_long = `${preferences.latitude}:${preferences.longitude}`;
 
-      // Create a comma-separated preferences string if needed
+      // prefered activites
       const preferencesString = preferences.activities.join(",");
 
       await docClient.send(
