@@ -133,7 +133,7 @@ const WeatherPage = () => {
       <main className="main-content">
         <div className="weather-info">
           <Chatbot />
-          <h2>Rochester {time}</h2>
+          <h2>Your Current Time: {time}</h2>
           <WeatherInfo
             latitude={userLocation.latitude}
             longitude={userLocation.longitude}
