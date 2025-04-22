@@ -1,29 +1,29 @@
-# Setup Instrctuions
+# Setup Instructions
+These are the setup instructions to get Fit4Cast running on your local machine, to see how to get setup within AWS Amplify, see our User Guide in our team repository.
 
-Step 1: Install Pacakges
-`npm install`
+## Prerequisites
+ > [!IMPORTANT] 
+ > In order to properly setup the web application with AWS services, you **WILL** need your AWS Access Key and Secret access key so permissions can properly be setup for interactions with services like DynamoDB and Lex.
 
-Step 2: Setup .env
+ > [!NOTE]
+ > Please also note that this site **NEEDS** the Terraform configuration to be setup **BEFORE** running, otherwise it will not work.
 
-- Create .env in root directory
-- add: VITE_AWS_ACCESS_KEY_ID & VITE_AWS_SECRET_ACCESS_KEY
+## Step 1: Install Packages
+Run `npm install` to install all of the required packages
 
-Step 3: Run Website
-`npm dev` or `npm build`
+## Step 2: Setup .env
 
-Step 4: Check for Errors
-After you make changes run eslint using the command `npm run lint`
-This will check for linting errors
+Create .env in the root directory, copy and fill in the following variables
+```
+VITE_AWS_ACCESS_KEY_ID=
+VITE_AWS_SECRET_ACCESS_KEY=
+VITE_API_GATEWAY_LINK=
+VITE_COGNITO_USER_POOL_ID=
+VITE_COGNITO_USER_POOL_CLIENT_ID=
+```
 
-# React + Vite
+## Step 3: Run Website
+Run `npm run dev` or `npm run build` to get a live development server that you can access a live updating site in your web browser or create a build folder where you can access a non-live updating site.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Step 4: Use The Website!
+The 
