@@ -29,7 +29,6 @@ const WeatherPage = () => {
   const time = today.toLocaleTimeString();
 
   useEffect(() => {
-    console.log("User object:", user);
     checkUserPreferences();
   }, []);
 
@@ -53,14 +52,22 @@ const WeatherPage = () => {
 
         // Update location if available
         if (response.Item.latitude && response.Item.longitude) {
-          // If latitude and longitude are stored separately
+          // Handle DynamoDB format where values might be objects with S property
+          const latitude = response.Item.latitude.S || response.Item.latitude;
+          const longitude =
+            response.Item.longitude.S || response.Item.longitude;
+
+
           setUserLocation({
-            latitude: response.Item.latitude,
-            longitude: response.Item.longitude,
+            latitude,
+            longitude,
           });
         } else if (response.Item.lat_long) {
-          // If latitude and longitude are stored as a combined string (e.g., "43.15501:-77.596855")
-          const [lat, long] = response.Item.lat_long.split(":");
+          // If latitude and longitude are stored as a combined string
+          const latLongValue =
+            response.Item.lat_long.S || response.Item.lat_long;
+          const [lat, long] = latLongValue.split(":");
+
           if (lat && long) {
             setUserLocation({
               latitude: lat,

@@ -49,7 +49,6 @@ const Chatbot = () => {
       const response = await client.send(command);
       // Update conversation: add your message
       setConversation((prev) => [...prev, { from: "user", text: message }]);
-      console.log(response);
 
       // Add bot response to conversation
       if (response.message) {
@@ -60,7 +59,6 @@ const Chatbot = () => {
       }
     } catch (error) {
       console.error("Error communicating with Lex:", error);
-      console.log("Command", command);
       setConversation((prev) => [
         ...prev,
         {

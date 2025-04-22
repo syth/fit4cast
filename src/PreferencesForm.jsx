@@ -14,24 +14,110 @@ const docClient = DynamoDBDocumentClient.from(client);
 
 const PreferencesForm = ({ onComplete, existingPreferences }) => {
   const { user } = useAuthenticator();
+  // Predefined locations with their coordinates
+  const locations = [
+    { name: "Rochester, NY", latitude: "43.1548", longitude: "-77.6156" },
+    { name: "New York City, NY", latitude: "40.7128", longitude: "-74.0060" },
+    { name: "Los Angeles, CA", latitude: "34.0522", longitude: "-118.2437" },
+    { name: "Chicago, IL", latitude: "41.8781", longitude: "-87.6298" },
+    { name: "Miami, FL", latitude: "25.7617", longitude: "-80.1918" },
+    { name: "Seattle, WA", latitude: "47.6062", longitude: "-122.3321" },
+    { name: "Denver, CO", latitude: "39.7392", longitude: "-104.9903" },
+  ];
+
+  // Find the closest location match based on existing coordinates
+  const findLocationMatch = (lat, long) => {
+    if (!lat || !long) return 0; // Default to Rochester if no coordinates
+
+    // Handle DynamoDB format where values might be objects with S property
+    const latitude = lat?.S || lat;
+    const longitude = long?.S || long;
+
+    // Try to find an exact match first
+    const exactMatch = locations.findIndex(
+      (loc) => loc.latitude === latitude && loc.longitude === longitude
+    );
+
+    if (exactMatch !== -1) return exactMatch;
+
+    // Default to Rochester (index 0) if no match found
+    return 0;
+  };
+
+  // Determine initial selected location
+  const initialLocationIndex = existingPreferences
+    ? findLocationMatch(
+        existingPreferences.latitude,
+        existingPreferences.longitude
+      )
+    : 0;
+
+  const [selectedLocationIndex, setSelectedLocationIndex] = useState(
+    initialLocationIndex
+  );
+
+  // Helper function to extract activities from DynamoDB format
+  const extractActivities = (activitiesData) => {
+    if (!activitiesData) return [];
+
+    // Handle DynamoDB L (list) format
+    if (activitiesData.L && Array.isArray(activitiesData.L)) {
+      return activitiesData.L.map((item) => item.S || item);
+    }
+
+    // Handle regular array
+    if (Array.isArray(activitiesData)) {
+      return activitiesData;
+    }
+
+    // Handle comma-separated string from preferences field
+    if (existingPreferences.preferences) {
+      const prefsString =
+        existingPreferences.preferences.S || existingPreferences.preferences;
+      return prefsString.split(",");
+    }
+
+    return [];
+  };
+
+  // Helper function to extract string value from DynamoDB format
+  const extractStringValue = (value, defaultValue) => {
+    if (!value) return defaultValue;
+    return value.S || value;
+  };
+
   const [preferences, setPreferences] = useState(
     existingPreferences
       ? {
-          activities: existingPreferences.activities || [],
-          intensity: existingPreferences.intensity || "medium",
-          preferredTime: existingPreferences.preferredTime || "morning",
-          indoorOutdoor: existingPreferences.indoorOutdoor || "both",
-          latitude: existingPreferences.latitude || "43.1548",
-          longitude: existingPreferences.longitude || "-77.6156",
+          activities: extractActivities(existingPreferences.activities),
+          intensity: extractStringValue(
+            existingPreferences.intensity,
+            "medium"
+          ),
+          preferredTime: extractStringValue(
+            existingPreferences.preferredTime,
+            "morning"
+          ),
+          indoorOutdoor: extractStringValue(
+            existingPreferences.indoorOutdoor,
+            "both"
+          ),
+          latitude: extractStringValue(
+            existingPreferences.latitude,
+            locations[initialLocationIndex].latitude
+          ),
+          longitude: extractStringValue(
+            existingPreferences.longitude,
+            locations[initialLocationIndex].longitude
+          ),
         }
       : {
-          // Default values
           activities: [],
           intensity: "medium",
           preferredTime: "morning",
           indoorOutdoor: "both",
-          latitude: "43.1548", // Default to Rochester
-          longitude: "-77.6156",
+          latitude: locations[initialLocationIndex].latitude,
+          longitude: locations[initialLocationIndex].longitude,
         }
   );
 
@@ -160,18 +246,37 @@ const PreferencesForm = ({ onComplete, existingPreferences }) => {
 
         <div>
           <h3>Your Location:</h3>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Select a city: </label>
+            <select
+              value={selectedLocationIndex}
+              onChange={(e) => {
+                const index = parseInt(e.target.value);
+                setSelectedLocationIndex(index);
+                setPreferences((prev) => ({
+                  ...prev,
+                  latitude: locations[index].latitude,
+                  longitude: locations[index].longitude,
+                }));
+              }}
+              style={{ padding: "5px", marginLeft: "10px", minWidth: "200px" }}
+            >
+              {locations.map((location, index) => (
+                <option key={index} value={index}>
+                  {location.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
             <div>
               <label>Latitude:</label>
               <input
                 type="text"
                 value={preferences.latitude}
-                onChange={(e) =>
-                  setPreferences((prev) => ({
-                    ...prev,
-                    latitude: e.target.value,
-                  }))
-                }
+                readOnly
+                style={{ backgroundColor: "#f0f0f0" }}
               />
             </div>
             <div>
@@ -179,16 +284,15 @@ const PreferencesForm = ({ onComplete, existingPreferences }) => {
               <input
                 type="text"
                 value={preferences.longitude}
-                onChange={(e) =>
-                  setPreferences((prev) => ({
-                    ...prev,
-                    longitude: e.target.value,
-                  }))
-                }
+                readOnly
+                style={{ backgroundColor: "#f0f0f0" }}
               />
             </div>
           </div>
-          <small>Default is set to Rochester, NY (43.1548, -77.6156)</small>
+          <small>
+            Your location will be used to display local weather and suggest
+            nearby activities.
+          </small>
         </div>
 
         <button type="submit">
