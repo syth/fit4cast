@@ -12,7 +12,7 @@ const Chatbot = () => {
   const [input, setInput] = useState("");
   const [conversation, setConversation] = useState([]);
   const { user } = useAuthenticator();
-  const userId = user.username;
+  const userId = user.userId;
   const sendMessage = async (message) => {
     const client = new LexRuntimeServiceClient({
       region: "us-east-1",
@@ -24,7 +24,7 @@ const Chatbot = () => {
 
     // Fetch user preferences
     const userPreferences = await client.models.UserPreferences.get({
-      userId: user.username,
+      userId: user.userId,
     });
 
     const params = {

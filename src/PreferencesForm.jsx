@@ -58,11 +58,21 @@ const PreferencesForm = ({ onComplete, existingPreferences }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Create a combined lat_long string in the format expected by DynamoDB
+      const lat_long = `${preferences.latitude}:${preferences.longitude}`;
+
+      // Create a comma-separated preferences string if needed
+      const preferencesString = preferences.activities.join(",");
+
       await docClient.send(
         new PutCommand({
           TableName: "UserData",
           Item: {
-            UserID: user.username,
+            UserID: user.userId,
+            email: user?.signInDetails?.loginId || user.username,
+            lat_long: lat_long,
+            preferences: preferencesString,
+            // Include other fields as needed
             ...preferences,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),

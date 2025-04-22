@@ -29,6 +29,7 @@ const WeatherPage = () => {
   const time = today.toLocaleTimeString();
 
   useEffect(() => {
+    console.log("User object:", user);
     checkUserPreferences();
   }, []);
 
@@ -38,7 +39,7 @@ const WeatherPage = () => {
         new GetCommand({
           TableName: "UserData",
           Key: {
-            UserID: user.username,
+            UserID: user.userId,
           },
         })
       );
@@ -52,10 +53,20 @@ const WeatherPage = () => {
 
         // Update location if available
         if (response.Item.latitude && response.Item.longitude) {
+          // If latitude and longitude are stored separately
           setUserLocation({
             latitude: response.Item.latitude,
             longitude: response.Item.longitude,
           });
+        } else if (response.Item.lat_long) {
+          // If latitude and longitude are stored as a combined string (e.g., "43.15501:-77.596855")
+          const [lat, long] = response.Item.lat_long.split(":");
+          if (lat && long) {
+            setUserLocation({
+              latitude: lat,
+              longitude: long,
+            });
+          }
         }
       } else {
         // User doesn't have preferences, show the form
@@ -84,7 +95,6 @@ const WeatherPage = () => {
       />
     );
   }
-
   return (
     <div className="App">
       <header className="App-header">
