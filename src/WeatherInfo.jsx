@@ -38,7 +38,9 @@ const getWeatherDescription = (code) => {
 const fetchWeatherData = async ({ queryKey }) => {
   const [, latitude, longitude] = queryKey;
   // Replace first part of URL with api id.
-  const apiUrl = import.meta.env.VITE_API_GATEWAY_LINK + `/weather?latitude=${latitude}&longitude=${longitude}`;
+  const apiUrl =
+    import.meta.env.VITE_API_GATEWAY_LINK +
+    `?latitude=${latitude}&longitude=${longitude}`;
 
   const response = await fetch(apiUrl);
   if (!response.ok) {
