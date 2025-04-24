@@ -166,14 +166,14 @@ const PreferencesForm = ({ onComplete, existingPreferences }) => {
         })
       );
 
-      const subscribeUrl = `${import.meta.env.VITE_API_GATEWAY_LINK}/subscribe`;
-      const userEmail = user?.signInDetails?.loginId || user.username;
+      // const subscribeUrl = `${import.meta.env.VITE_API_GATEWAY_LINK}/subscribe`;
+      // const userEmail = user?.signInDetails?.loginId || user.username;
       
-      await fetch(subscribeUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: userEmail }),
-      });
+      // await fetch(subscribeUrl, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ email: userEmail }),
+      // });
 
       onComplete();
     } catch (error) {
